@@ -1,0 +1,17 @@
+# Non-disclosed Data Files
+data
+
+# Models
+models
+
+# Secret Config Files
+secrets.toml
+
+# Context data
+data
+
+# others
+*.pyc
+.DS_Store
+backup
+chroma
