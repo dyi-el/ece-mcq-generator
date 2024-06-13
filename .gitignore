@@ -14,3 +14,5 @@ data
 *.pyc
 .DS_Store
 backup
+Pipfile
+Pipfile.lock
