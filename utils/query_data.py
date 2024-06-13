@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain.vectorstores.chroma import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 

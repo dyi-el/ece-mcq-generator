@@ -1,9 +1,9 @@
 import os
 import shutil
-from langchain.document_loaders.pdf import PyPDFDirectoryLoader
+from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
-from langchain.vectorstores.chroma import Chroma
+from langchain_community.vectorstores import Chroma
 
 from utils.embeddings import get_embedding_function
 
