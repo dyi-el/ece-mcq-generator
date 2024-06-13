@@ -10,8 +10,31 @@ from utils.query_data import query_rag
 
 
 
-st.title('✅ Electronics Engineer Licensure Exam Generator')
 
+
+# ------------ Stateful Buttons ----------------
+if 'update' not in st.session_state:
+    st.session_state.update = False
+
+if 'local' not in st.session_state:
+    st.session_state.local = False
+    
+if 'uploaded' not in st.session_state:
+    st.session_state.uploaded = False
+    
+def update():
+    st.session_state.update = True
+
+def local():
+    st.session_state.local = True
+    
+def uploaded():
+    st.session_state.uploaded = True
+
+# ------------ Stateful Buttons ----------------
+
+
+st.title('✅ Electronics Engineer Licensure Exam Generator')
 with st.sidebar:
     intro = '''
     This Retrieval Augmentated Generation application is a project by
@@ -26,22 +49,26 @@ with st.sidebar:
     os.environ["OPENAI_API_KEY"] = input_key
     
     if input_key:
-        if st.button("Update Database"):
+        st.button("Update Database",on_click=update)
+        if st.session_state.update:
+
             uploaded = st.file_uploader('Upload another context file',type='pdf')
 
             st.warning('''Updating the database will affect only this session.
                     Choose local or uploaded update.
                     ''')
             
-            if st.button("Local"):
+            st.button("Local", on_click=local)
+            if st.session_state.local:
                 with st.spinner("Updating Database"):
                     docs = load_documents_local()
                     chunks = split_documents(docs)
                     add_to_chroma(chunks)
             
-            if st.button("Uploaded"):
+            st.button("Uploaded", on_click=uploaded)
+            if st.session_state.uploaded:
                 with st.spinner("Updating Database"):
-                    docs = load_documents_uploaded()
+                    docs = load_documents_uploaded(uploaded)
                     chunks = split_documents(docs)
                     add_to_chroma(chunks)
             
