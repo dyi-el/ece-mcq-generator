@@ -1,5 +1,9 @@
 # ✅ Electronics Engineer Licensure Exam Generator
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ece-mcq.streamlit.app)
+
+<img src="assets/sc.png" alt="screenshot" width="500"/>
+
+
 ## Overview
 
 This project is a Retrieval-Augmented Generation (RAG) application designed to generate practice exam questions for the Electronics Engineer Licensure Exam. The project is a collaborative effort by **JL Bualoy** and **Denver Magtibay** from Smart Edge ECE Review Specialist. Currently, the application supports topics under Electronics Systems and Technologies.
@@ -96,5 +100,5 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 
 ## Acknowledgements
 
--<img src="assets/smart-edge-logo.png" alt="Smart Edge Logo" width="256"/>
+<img src="assets/smart-edge-logo.png" alt="Smart Edge Logo" width="256"/>
 
