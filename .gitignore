@@ -14,4 +14,3 @@ data
 *.pyc
 .DS_Store
 backup
-chroma
