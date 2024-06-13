@@ -1,8 +1,11 @@
 # main.py
 
+# Remove this when running locally
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+
 
 import os
 import streamlit as st
@@ -16,19 +19,17 @@ from utils.query_data import query_rag
 
 
 # ------------ Stateful Buttons ----------------
-if 'update' not in st.session_state:
-    st.session_state.update = False
+if 'update_db' not in st.session_state:
+    st.session_state.update_db = False
 
 if 'continue_update' not in st.session_state:
     st.session_state.continue_update = False
     
-def update():
-    st.session_state.update = True
-    
+def update_db():
+    st.session_state.update_db = True
+
 def continue_update():
     st.session_state.continue_update = True
-
-
 # ------------ Stateful Buttons ----------------
 
 
@@ -37,18 +38,25 @@ with st.sidebar:
     intro = '''
     This Retrieval Augmentated Generation application is a project by
     JL Bualoy & Denver Magtibay from Smart Edge ECE Review Specialist.
+    It is still in experimental stage and may produce inaccurate results.
+    Make sure to validate the questions and answers generated.
+    
+    Currently, only Electronics Systems and Technologies topics
+    are supported.
     
     ### TOPNOTCHER CUTIE 💯🙌
     '''
     st.write(intro)
     
-    
+    st.success('To get your own API key, visit [OpenAI Platform](https://platform.openai.com/) page.')
+    # Get API to environment variables
     input_key = st.text_input('OpenAI API Key')
     os.environ["OPENAI_API_KEY"] = input_key
     
+    
     if input_key:
-        st.button("Update Database", on_click=update)
-        if st.session_state.update:
+        st.button("Update Database", on_click=update_db)
+        if st.session_state.update_db:
 
             st.warning('Updating the database only works locally.')
             
@@ -58,6 +66,8 @@ with st.sidebar:
                     docs = load_documents()
                     chunks = split_documents(docs)
                     add_to_chroma(chunks)
+                    st.session_state.continue_update = False
+                    st.session_state.update_db = False
             
             
 if input_key:
