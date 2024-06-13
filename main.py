@@ -49,7 +49,7 @@ with st.sidebar:
             st.warning('Updating the database only works locally.')
             
             st.button("Continue", on_click=continue_update)
-            if st.session_state.local:
+            if st.session_state.continue_update:
                 with st.spinner("Updating Database"):
                     docs = load_documents()
                     chunks = split_documents(docs)
