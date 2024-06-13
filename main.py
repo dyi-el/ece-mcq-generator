@@ -1,9 +1,9 @@
 # main.py
 
 # Remove this when running locally
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+#__import__('pysqlite3')
+#import sys
+#sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 
@@ -30,6 +30,7 @@ def update_db():
 
 def continue_update():
     st.session_state.continue_update = True
+
 # ------------ Stateful Buttons ----------------
 
 
@@ -50,7 +51,7 @@ with st.sidebar:
     
     st.success('To get your own API key, visit [OpenAI Platform](https://platform.openai.com/) page.')
     # Get API to environment variables
-    input_key = st.text_input('OpenAI API Key')
+    input_key = st.text_input('OpenAI API Key',type='password')
     os.environ["OPENAI_API_KEY"] = input_key
     
     
@@ -59,15 +60,20 @@ with st.sidebar:
         if st.session_state.update_db:
 
             st.warning('Updating the database only works locally.')
+            doc = st.file_uploader('Upload a PDF for additional context',type='pdf')
             
             st.button("Continue", on_click=continue_update)
             if st.session_state.continue_update:
                 with st.spinner("Updating Database"):
-                    docs = load_documents()
+                    docs = load_documents(doc)
                     chunks = split_documents(docs)
                     add_to_chroma(chunks)
-                    st.session_state.continue_update = False
+                    st.success('Updated the database ✅')
                     st.session_state.update_db = False
+                    st.session_state.continue_update = False
+        
+
+            
             
             
 if input_key:

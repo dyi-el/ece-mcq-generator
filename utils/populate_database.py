@@ -1,6 +1,5 @@
-import os
-import shutil
 from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
 from langchain_community.vectorstores import Chroma
@@ -12,9 +11,17 @@ CHROMA_PATH = "chroma"
 DATA_PATH = "data"
 
 
-def load_documents():
-    document_loader = PyPDFDirectoryLoader(DATA_PATH)
-    return document_loader.load()
+def load_documents(doc=None):
+    if doc == None:
+        document_loader = PyPDFDirectoryLoader(DATA_PATH)
+        return document_loader.load()
+    else:
+        with open(doc.name, mode='wb') as w:
+                w.write(doc.getvalue())
+        
+        print(doc.name)
+        document_loader = PyPDFLoader(doc.name)
+        return document_loader.load()
 
 
 def split_documents(documents: list[Document]):
@@ -83,10 +90,3 @@ def calculate_chunk_ids(chunks):
         chunk.metadata["id"] = chunk_id
 
     return chunks
-
-
-def clear_database():
-    print("✨ Clearing Database")
-    if os.path.exists(CHROMA_PATH):
-        shutil.rmtree(CHROMA_PATH)
-
