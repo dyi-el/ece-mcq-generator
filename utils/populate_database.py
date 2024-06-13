@@ -12,11 +12,7 @@ CHROMA_PATH = "chroma"
 DATA_PATH = "data"
 
 
-def load_documents_uploaded(uploaded):
-    document_loader = PyPDFDirectoryLoader(uploaded)
-    return document_loader.load()
-
-def load_documents_local():
+def load_documents():
     document_loader = PyPDFDirectoryLoader(DATA_PATH)
     return document_loader.load()
 

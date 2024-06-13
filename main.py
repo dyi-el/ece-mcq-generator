@@ -2,8 +2,7 @@
 
 import os
 import streamlit as st
-from utils.populate_database import (load_documents_local,
-                                     load_documents_uploaded,
+from utils.populate_database import (load_documents,
                                      split_documents,
                                      add_to_chroma)
 from utils.query_data import query_rag
@@ -16,20 +15,15 @@ from utils.query_data import query_rag
 if 'update' not in st.session_state:
     st.session_state.update = False
 
-if 'local' not in st.session_state:
-    st.session_state.local = False
-    
-if 'uploaded' not in st.session_state:
-    st.session_state.uploaded = False
+if 'continue_update' not in st.session_state:
+    st.session_state.continue_update = False
     
 def update():
     st.session_state.update = True
-
-def local():
-    st.session_state.local = True
     
-def uploaded():
-    st.session_state.uploaded = True
+def continue_update():
+    st.session_state.continue_update = True
+
 
 # ------------ Stateful Buttons ----------------
 
@@ -49,28 +43,18 @@ with st.sidebar:
     os.environ["OPENAI_API_KEY"] = input_key
     
     if input_key:
-        st.button("Update Database",on_click=update)
+        st.button("Update Database", on_click=update)
         if st.session_state.update:
 
-            uploaded = st.file_uploader('Upload another context file',type='pdf')
-
-            st.warning('''Updating the database will affect only this session.
-                    Choose local or uploaded update.
-                    ''')
+            st.warning('Updating the database only works locally.')
             
-            st.button("Local", on_click=local)
+            st.button("Continue", on_click=continue_update)
             if st.session_state.local:
                 with st.spinner("Updating Database"):
-                    docs = load_documents_local()
+                    docs = load_documents()
                     chunks = split_documents(docs)
                     add_to_chroma(chunks)
             
-            st.button("Uploaded", on_click=uploaded)
-            if st.session_state.uploaded:
-                with st.spinner("Updating Database"):
-                    docs = load_documents_uploaded(uploaded)
-                    chunks = split_documents(docs)
-                    add_to_chroma(chunks)
             
 if input_key:
     tos_topic = st.selectbox(
