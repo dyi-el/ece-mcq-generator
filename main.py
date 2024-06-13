@@ -1,9 +1,9 @@
 # main.py
 
 # Remove this when running locally
-#__import__('pysqlite3')
-#import sys
-#sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 
@@ -52,7 +52,10 @@ with st.sidebar:
     st.success('To get your own API key, visit [OpenAI Platform](https://platform.openai.com/) page.')
     # Get API to environment variables
     input_key = st.text_input('OpenAI API Key',type='password')
-    os.environ["OPENAI_API_KEY"] = input_key
+    if input_key == st.secrets['NO_API_KEY']:
+        os.environ["OPENAI_API_KEY"] = st.secrets['OPENAI_API_KEY']
+    else:
+        os.environ["OPENAI_API_KEY"] = input_key
     
     
     if input_key:
