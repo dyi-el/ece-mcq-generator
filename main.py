@@ -38,7 +38,7 @@ st.title('✅ Electronics Engineer Licensure Exam Generator')
 with st.sidebar:
     intro = '''
     This Retrieval Augmentated Generation application is a project by
-    JL Bualoy & Denver Magtibay from Smart Edge ECE Review Specialist.
+    **JL Bualoy** & **Denver Magtibay** from Smart Edge ECE Review Specialist.
     It is still in experimental stage and may produce inaccurate results.
     Make sure to validate the questions and answers generated.
     
@@ -71,6 +71,8 @@ with st.sidebar:
                     st.success('Updated the database ✅')
                     st.session_state.update_db = False
                     st.session_state.continue_update = False
+    
+    st.image('assets/smart-edge-logo.png',output_format='PNG',width=256)
         
 
             
